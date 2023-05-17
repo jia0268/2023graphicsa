@@ -16,13 +16,18 @@ GLMmodel * leftlowarm = NULL;
 GLMmodel * rightlowarm = NULL;
 GLMmodel * leftshoe = NULL;
 GLMmodel * rightshoe = NULL;
-int show[4]={0,1,0,0}; ///用 show[i] 來決定要不要顯示
+int show[4]={0,0,1,0};
+int ID=2;///0:頭 1:身體 2:左上手臂 3:右上手臂
 void keyboard(unsigned char key,int x,int y)
 {
-    if(key=='0') show[0] = !show[0];
-    if(key=='1') show[1] = !show[1];
-    if(key=='2') show[2] = !show[2];
-    if(key=='3') show[3] = !show[3];
+    if(key=='0') ID=0;
+    if(key=='1') ID=1;
+    if(key=='2') ID=2;
+    if(key=='3') ID=3;
+    ///if(key=='0') show[0] = !show[0];
+    ///if(key=='1') show[1] = !show[1];
+    ///if(key=='2') show[2] = !show[2];
+    ///if(key=='3') show[3] = !show[3];
     glutPostRedisplay();
 }///下面舊的先註解掉
 FILE * fin= NULL;///一開始檔案沒開，NULL
@@ -41,14 +46,31 @@ void display()
             rightarm = glmReadOBJ("model/rightarm.obj");
             ///glmUnitize(body);
         }
+        if(ID==0)glColor3f(1,0,0);///選定的,設紅色
+        else glColor3f(1,1,1);///沒選定,設白色
         if(show[0])glmDraw(head, GLM_MATERIAL);
+
+        if(ID==1)glColor3f(1,0,0);///選定的,設紅色
+        else glColor3f(1,1,1);///沒選定,設白色
         if(show[1])glmDraw(body, GLM_MATERIAL);
+
         glPushMatrix();
-            glTranslated(teapotX,teapotY,0);
+
+            ///glTranslatef(-teapotX,-teapotY,0);
+            ///glRotatef(angle,0,0,1);///TRT建出來
+            glTranslatef(teapotX,teapotY,0);
+
+            if(ID==2)glColor3f(1,0,0);///選定的,設紅色
+            else glColor3f(1,1,1);///沒選定,設白色
             if(show[2])glmDraw(leftarm, GLM_MATERIAL);
         glPopMatrix();
+
+        if(ID==3)glColor3f(1,0,0);///選定的,設紅色
+        else glColor3f(1,1,1);///沒選定,設白色
         if(show[3])glmDraw(rightarm, GLM_MATERIAL);
     glPopMatrix();
+    glColor3f(0,1,0);
+    glutSolidTeapot(0.02);///放個小茶壺在正中心,當參考點
     glutSwapBuffers();
 }
 int oldX=0,oldY=0;
