@@ -7,7 +7,7 @@ GLMmodel * body = NULL;
 GLMmodel * leftarm = NULL;
 GLMmodel * rightarm = NULL;
 GLMmodel * lefthand = NULL;
-GLMmodel * righhand = NULL;
+GLMmodel * righthand = NULL;
 GLMmodel * leftleg = NULL;
 GLMmodel * rightleg = NULL;
 GLMmodel * leftlowleg = NULL;
@@ -16,8 +16,8 @@ GLMmodel * leftlowarm = NULL;
 GLMmodel * rightlowarm = NULL;
 GLMmodel * leftshoe = NULL;
 GLMmodel * rightshoe = NULL;
-int show[4]={0,0,1,0};
-int ID=2;///0:頭 1:身體 2:左上手臂 3:右上手臂
+int show[5]={1,1,1,1,1};
+int ID=4;///0:頭 1:身體 2:右上手臂 3:右下手臂
 void keyboard(unsigned char key,int x,int y)
 {
     if(key=='0') ID=0;
@@ -42,8 +42,9 @@ void display()
         if(body==NULL){
             head = glmReadOBJ("model/head.obj");
             body = glmReadOBJ("model/body.obj");
-            leftarm = glmReadOBJ("model/leftarm.obj");
             rightarm = glmReadOBJ("model/rightarm.obj");
+            rightlowarm = glmReadOBJ("model/rightlowarm.obj");
+            righthand = glmReadOBJ("model/righthand.obj");
             ///glmUnitize(body);
         }
         if(ID==0)glColor3f(1,0,0);///選定的,設紅色
@@ -56,18 +57,42 @@ void display()
 
         glPushMatrix();
 
-            ///glTranslatef(-teapotX,-teapotY,0);
-            ///glRotatef(angle,0,0,1);///TRT建出來
-            glTranslatef(teapotX,teapotY,0);
+            glTranslatef(-1.286666,0.433333,0);///反過來
+            ///glTranslatef(-teapotX,-teapotY,0);///TRT建出來
+            glRotatef(angle,0,0,1);///TRT建出來
+            ///glTranslatef(teapotX,teapotY,0);///TRT建出來
+            glTranslatef(1.286666,-0.433333,0);
 
             if(ID==2)glColor3f(1,0,0);///選定的,設紅色
             else glColor3f(1,1,1);///沒選定,設白色
-            if(show[2])glmDraw(leftarm, GLM_MATERIAL);
+            if(show[2])glmDraw(rightarm, GLM_MATERIAL);
+            glPushMatrix();
+
+                ///glTranslatef(teapotX,teapotY,0);
+                glTranslatef(-1.866665,0.340000,0);
+                glRotatef(angle,0,0,1);
+                glTranslatef(1.866665,-0.340000,0);
+
+                if(ID==3)glColor3f(1,0,0);///選定的,設紅色
+                else glColor3f(1,1,1);///沒選定,設白色
+                if(show[3])glmDraw(rightlowarm, GLM_MATERIAL);
+                glPushMatrix();
+
+                    ///glTranslatef(teapotX,teapotY,0);
+                    glTranslatef(-0.759999,-0.100000,0);
+                    glRotatef(angle,0,0,1);
+                    glTranslatef(0.759999,0.100000,0);
+
+                    if(ID==4)glColor3f(1,0,0);///選定的,設紅色
+                    else glColor3f(1,1,1);///沒選定,設白色
+                    if(show[4])glmDraw(righthand, GLM_MATERIAL);
+                glPopMatrix();
+            glPopMatrix();
         glPopMatrix();
 
-        if(ID==3)glColor3f(1,0,0);///選定的,設紅色
-        else glColor3f(1,1,1);///沒選定,設白色
-        if(show[3])glmDraw(rightarm, GLM_MATERIAL);
+        //if(ID==3)glColor3f(1,0,0);///選定的,設紅色
+        //else glColor3f(1,1,1);///沒選定,設白色
+        //if(show[3])glmDraw(rightlowarm, GLM_MATERIAL);
     glPopMatrix();
     glColor3f(0,1,0);
     glutSolidTeapot(0.02);///放個小茶壺在正中心,當參考點
@@ -80,6 +105,7 @@ void motion(int x, int y)
     teapotY -= (y - oldY)/150.0;
     oldX = x;
     oldY = y;
+    angle = x;
     printf("glTranslatef(%f,%f,0);\n",teapotX,teapotY);
     glutPostRedisplay();
 }
