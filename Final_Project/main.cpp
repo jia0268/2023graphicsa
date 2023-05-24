@@ -17,7 +17,7 @@ GLMmodel * rightlowarm = NULL;
 GLMmodel * leftshoe = NULL;
 GLMmodel * rightshoe = NULL;
 int show[5]={1,1,1,1,1};
-int ID=4;///0:頭 1:身體 2:右上手臂 3:右下手臂
+int ID=2;///0:頭 1:身體 2:右上手臂 3:右下手臂
 void keyboard(unsigned char key,int x,int y)
 {
     if(key=='0') ID=0;
@@ -57,11 +57,11 @@ void display()
 
         glPushMatrix();
 
-            glTranslatef(-1.286666,0.433333,0);///反過來
+            glTranslatef(-1.226666,0.373333,0);///反過來
             ///glTranslatef(-teapotX,-teapotY,0);///TRT建出來
             glRotatef(angle,0,0,1);///TRT建出來
             ///glTranslatef(teapotX,teapotY,0);///TRT建出來
-            glTranslatef(1.286666,-0.433333,0);
+            glTranslatef(1.226666,-0.373333,0);
 
             if(ID==2)glColor3f(1,0,0);///選定的,設紅色
             else glColor3f(1,1,1);///沒選定,設白色
@@ -69,9 +69,9 @@ void display()
             glPushMatrix();
 
                 ///glTranslatef(teapotX,teapotY,0);
-                glTranslatef(-1.866665,0.340000,0);
+                glTranslatef(-1.973332,0.133333,0);
                 glRotatef(angle,0,0,1);
-                glTranslatef(1.866665,-0.340000,0);
+                glTranslatef(1.973332,-0.133333,0);
 
                 if(ID==3)glColor3f(1,0,0);///選定的,設紅色
                 else glColor3f(1,1,1);///沒選定,設白色
@@ -79,10 +79,9 @@ void display()
                 glPushMatrix();
 
                     ///glTranslatef(teapotX,teapotY,0);
-                    glTranslatef(-0.759999,-0.100000,0);
+                    glTranslatef(-2.453331,-0.779999,0);
                     glRotatef(angle,0,0,1);
-                    glTranslatef(0.759999,0.100000,0);
-
+                    glTranslatef(2.453331,0.779999,0);
                     if(ID==4)glColor3f(1,0,0);///選定的,設紅色
                     else glColor3f(1,1,1);///沒選定,設白色
                     if(show[4])glmDraw(righthand, GLM_MATERIAL);
